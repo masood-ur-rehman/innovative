@@ -14,7 +14,7 @@ class FilmsSeeder extends Seeder
         for($i = 1; $i<=3; $i++){
             DB::table('films')->insert([
                 'Name' => 'Film '.$i,
-                'Slug' => preg_replace('/\s+/', '-', 'Film '.$i),
+                'Slug' => strtolower(preg_replace('/\s+/', '-', 'Film '.$i)),
                 'Description' => 'Description '.$i,
                 'ReleaseDate' => date('Y-m-d'),
                 'Rating' => 5,

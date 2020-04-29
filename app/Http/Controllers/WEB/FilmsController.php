@@ -3,7 +3,6 @@ namespace App\Http\Controllers\WEB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Films;
-use Illuminate\Support\Facades\Auth;
 use Validator;
 
 class FilmsController extends Controller
@@ -12,11 +11,16 @@ class FilmsController extends Controller
      * Display a listing of the resource.
      * @return mixed
      */
-    public function index()
+    public function index(Request $request)
     {
-        $films =  Films::paginate(1);
+        $page = 1;
+        if($request->input('page')){
+            $page = $request->input('page');
+        }
+        $films = AuthController::getRequest('films?page='.$page, 'GET');
 
-        return $films;
+        return view('films/index', ['films'=>$films]);
+
     }
 
     /**
@@ -28,5 +32,21 @@ class FilmsController extends Controller
     {
         return $request->process();
     }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show($film)
+    {
+        $film = Films::where('Slug', '=', $film)->first();
+
+        if (!$film) {
+            return back()->with('error','Invalid Film Requested');
+        }
+
+        return view('films/show', ['film'=>$film]);
+    }
+
 
 }

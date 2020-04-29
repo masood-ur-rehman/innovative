@@ -57,7 +57,6 @@ class Store extends FormRequest
             $filename = null;
             if($this->file('Photo')){
                 $Photo = $this->file('Photo');
-                $data = getimagesize($Photo);
 
                 $filename = time().'.'. $Photo->getClientOriginalExtension();
                 Storage::disk('public')->putFileAs('films', $Photo, $filename);
@@ -66,7 +65,7 @@ class Store extends FormRequest
 
             $films = Films::create([
                 'Name' => $this->input('Name'),
-                'Slug' => $slug,
+                'Slug' => strtolower($slug),
                 'Description' => $this->input('Description'),
                 'ReleaseDate' => $this->input('ReleaseDate'),
                 'Rating' => $this->input('Rating'),
