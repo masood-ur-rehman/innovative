@@ -2,6 +2,8 @@
 @section('content')
 <div class="container">
     <h2>Films</h2>
+    <a href="{{route('films.create')}}" class="btn btn-outline-primary" role="button" aria-pressed="true" style="float:right;margin-bottom: 10px;">Add New</a>
+
     <table class="table table-bordered" id="laravel">
         <thead>
         <tr>

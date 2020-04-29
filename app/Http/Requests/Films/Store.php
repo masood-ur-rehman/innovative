@@ -46,7 +46,6 @@ class Store extends FormRequest
 
     public function process()
     {
-
         try {
             $slug = urlencode(preg_replace('/\s+/', '-', $this->input('Name')));
             $filmBySlug = Films::where('Slug', '=',  $slug)->first();
@@ -75,7 +74,12 @@ class Store extends FormRequest
                 'Photo' => $filename,
                 'created_at' => date('Y-m-d H:i:s'),
             ]);
-            return ['status'=>true, 'message'=>'Film Saved Successfully'];
+            if ($this->expectsJson()) {
+                return ['status'=>true, 'message'=>'Film Saved Successfully'];
+            }else{
+                return redirect()->route('films.show',['film'=>$films->Slug])->with('success', 'Record successfully added.');
+            }
+
         } catch (\Exception  $e) {
             throw $e;
         }

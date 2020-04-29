@@ -24,6 +24,17 @@ class FilmsController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create(Request $request)
+    {
+        return view('films.add')
+            ->with([]);
+    }
+
+    /**
      * @param \App\Http\Requests\Films\Store $request
      * @return array
      * @throws \Exception
