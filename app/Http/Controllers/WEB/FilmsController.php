@@ -8,8 +8,10 @@ use Validator;
 class FilmsController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     * @return mixed
+     * PURPOSE: LISTING FILMS VIA API
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function index(Request $request)
     {
@@ -17,6 +19,8 @@ class FilmsController extends Controller
         if($request->input('page')){
             $page = $request->input('page');
         }
+
+        /*GETTING RESPONSE FROM API*/
         $films = AuthController::getRequest('films?page='.$page, 'GET');
 
         return view('films/index', ['films'=>$films]);
@@ -24,9 +28,9 @@ class FilmsController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * PURPOSE: Show the form for creating a new resource.
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create(Request $request)
     {
@@ -45,10 +49,10 @@ class FilmsController extends Controller
     }
 
     /**
-     * @param $id
+     * @param $film
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($film)
+    public function show($film='')
     {
         $film = Films::where('Slug', '=', $film)->first();
 

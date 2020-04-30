@@ -9,19 +9,27 @@
         <tr>
             <th>Id</th>
             <th>Name</th>
-            <th>Email</th>
+            <th>Description</th>
+            <th>Rating</th>
             <th>Created at</th>
             <th>Action</th>
         </tr>
         </thead>
         <tbody>
+        @if(count($films['data'])==0)
+            <tr><td colspan="6">No Record Found</td></tr>
+        @endif
         @foreach($films['data'] as $k=>$film)
             <tr>
                 <td>{{ $film['id'] }}</td>
                 <td>{{ $film['Name'] }}</td>
                 <td>{{ $film['Description'] }}</td>
+                <td>{{ $film['Rating'] }}</td>
                 <td>{{ date('d F, Y', strtotime($film['created_at'])) }}</td>
-                <td><a href="{{ route('films.show', ['film'=>$film['Slug']]) }}">View</a></td>
+                <td>
+                    <a href="{{ route('films.show', ['film'=>$film['Slug']]) }}">View</a>&nbsp;|&nbsp;
+                    <a href="{{ route('comments.create', ['film'=>$film['Slug']]) }}">Add Comments</a>
+                </td>
             </tr>
         @endforeach
         </tbody>

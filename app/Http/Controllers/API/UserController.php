@@ -1,16 +1,20 @@
 <?php
 namespace App\Http\Controllers\API;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Validator;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
 class UserController extends Controller
 {
-    public $successStatus = 200;
+
+    /**
+     * @var bool
+     */
+    public $loginAfterSignUp = false;
 
     public function authenticate(Request $request)
     {
@@ -57,63 +61,52 @@ class UserController extends Controller
         return response()->json(compact('user'));
     }
 
-
     /**
-     * login api
-     *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
      */
-    public function login(){
-        if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
-            $user = Auth::user();
-            $success['token'] =  $user->createToken('MyApp')-> accessToken;
-            //return $this->respondWithToken($success['token']);
-            return response()->json(['success' => $success], $this-> successStatus);
-        }
-        else{
-            return response()->json(['error'=>'Unauthorised'], 401);
-        }
-    }
-    /**
-     * Register api
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function register(Request $request)
+    public function logout(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required',
-            'c_password' => 'required|same:password',
+        $this->validate($request, [
+            'token' => 'required'
         ]);
-        if ($validator->fails()) {
-            return response()->json(['error'=>$validator->errors()], 401);
+
+        try {
+            JWTAuth::invalidate($request->token);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'User logged out successfully'
+            ]);
+        } catch (JWTException $exception) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Sorry, the user cannot be logged out'
+            ], 500);
         }
-        $input = $request->all();
-        $input['password'] = bcrypt($input['password']);
-        $user = User::create($input);
-        $success['token'] =  $user->createToken('MyApp')-> accessToken;
-        $success['name'] =  $user->name;
-        return response()->json(['success'=>$success], $this-> successStatus);
     }
 
-    protected function respondWithToken($token)
+    /**
+     * @param RegistrationFormRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function register(\App\Http\Requests\RegistrationFormRequest $request)
     {
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        if ($this->loginAfterSignUp) {
+            return $this->authenticate($request);
+        }
+
         return response()->json([
-            'access_token' => $token,
-            'token_type'   => 'bearer',
-            'expires_in'   => auth()->factory()->getTTL() * 60
-        ]);
+            'success'   =>  true,
+            'data'      =>  $user
+        ], 200);
     }
-    /**
-     * details api
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function details()
-    {
-        $user = Auth::user();
-        return response()->json(['success' => $user], $this-> successStatus);
-    }
+
 }

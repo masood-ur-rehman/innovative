@@ -3,12 +3,12 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Films;
-use Illuminate\Support\Facades\Auth;
 use Validator;
 
 class FilmsController extends Controller
 {
     /**
+     * Purpose: Listing FILMS
      * Display a listing of the resource.
      * @return mixed
      */
@@ -20,6 +20,7 @@ class FilmsController extends Controller
     }
 
     /**
+     * Purpose: SAVING FILM
      * @param \App\Http\Requests\Films\Store $request
      * @return array
      * @throws \Exception

@@ -11,11 +11,14 @@
 |
 */
 
+/* FILMS & COMMENTS */
 Route::get('/', function () {
     return redirect('films');
 });
-
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('films', 'WEB\FilmsController');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/film/{film}/comment/create', 'WEB\CommentsController@create')->name('comments.create');
+    Route::post('/comment/store', 'WEB\CommentsController@store')->name('comments.store');
+});

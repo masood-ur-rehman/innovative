@@ -23,25 +23,6 @@
                     <p><b>Created At: </b>{{ $film->created_at }}</p>
                 </div>
             </div>
-
-        </div>
-        <div class="col-md-4">
-            <a href="{{ route('comments.create',['film'=>$film->Slug]) }}">Add Comment</a>
-            <div class="card">
-                <div class="card-header"><b>Comments</b></div>
-
-                <div class="card-body">
-                    @if(count($film->comments))
-                    @foreach($film->comments as $comment)
-                        <h5 class="card-title">{{$comment->Name}}</h5>
-                        <p class="card-text">{{$comment->Comment}}</p>
-                        <hr>
-                    @endforeach
-                    @else
-                        No Comment Found
-                    @endif
-                </div>
-            </div>
         </div>
     </div>
 </div>

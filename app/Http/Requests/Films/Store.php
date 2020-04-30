@@ -39,6 +39,7 @@ class Store extends FormRequest
 
     public function messages()
     {
+        /*VALIDATION MESSAGES*/
         return [
 
         ];
@@ -47,12 +48,15 @@ class Store extends FormRequest
     public function process()
     {
         try {
+
+            /*CREATING UNIQUE & CHECKING SLUG FROM NAME*/
             $slug = urlencode(preg_replace('/\s+/', '-', $this->input('Name')));
             $filmBySlug = Films::where('Slug', '=',  $slug)->first();
             if($filmBySlug){
                 $slug .= '-'.rand(1,999);
             }
 
+            /*PROCESS FILE UPLOAD*/
             $filename = null;
             if($this->file('Photo')){
                 $Photo = $this->file('Photo');
@@ -74,10 +78,17 @@ class Store extends FormRequest
                 'Photo' => $filename,
                 'created_at' => date('Y-m-d H:i:s'),
             ]);
+
+            /*RESPONSE FOR API USAGE*/
+
             if ($this->expectsJson()) {
+
                 return ['status'=>true, 'message'=>'Film Saved Successfully'];
             }else{
-                return redirect()->route('films.show',['film'=>$films->Slug])->with('success', 'Record successfully added.');
+
+                return redirect()->route('films.show',['film'=>$films->Slug])
+                    ->with('success', 'Record successfully added.');
+
             }
 
         } catch (\Exception  $e) {

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Films extends Model
+class Comments extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,7 +12,7 @@ class Films extends Model
      * @var array
      */
     protected $fillable = [
-        'Name', 'Slug', 'Description','ReleaseDate', 'Rating', 'TicketPrice','Country', 'Genre', 'Photo','created_at','updated_at'
+        'film_id', 'user_id', 'Name','Comment', 'created_at','updated_at'
     ];
 
     /**
@@ -24,8 +24,5 @@ class Films extends Model
         'updated_at',
     ];
 
-    public function comments()
-    {
-        return $this->hasMany('App\Models\Comments', 'film_id');
-    }
+
 }
