@@ -53,19 +53,6 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
-//    public function setPasswordAttribute($password)
-//    {
-//        if ( !empty($password) ) {
-//            $this->attributes['password'] = bcrypt($password);
-//        }
-//    }
     //JWT END
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function tasks()
-    {
-        return $this->hasMany(Task::class);
-    }
 }

@@ -33,7 +33,7 @@ class Store extends FormRequest
             'TicketPrice' => 'required|gt:0|lte:1000',
             'Country' => 'required|in:USA,PK,IN',
             'Genre' => 'required|in:Action,Drama,Animation',
-            'Photo' => 'required|image|max:1024',
+            'Photo' => 'required',
         ];
     }
 
@@ -85,7 +85,6 @@ class Store extends FormRequest
 
                 return ['status'=>true, 'message'=>'Film Saved Successfully'];
             }else{
-
                 return redirect()->route('films.show',['film'=>$films->Slug])
                     ->with('success', 'Record successfully added.');
 
