@@ -1,3 +1,15 @@
+## Films App
+
+Films App is specially designed for creating home media library. 
+Leave comments on the watched films and read the reviews of other viewers. 
+Always have an online backup of your movie database.
+
+## Available Scripts
+
+In the project directory, you can run:
+### `composer install`
+### `npm start`
+
 <p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
 
 <p align="center">
