@@ -18,10 +18,20 @@ class ExampleTest extends TestCase
     {
         $this->withoutMiddleware();
         $response = $this->call('get', '/films/film-1');
-        //$response = $this->get('/films');
-        //$this->assertTrue(true);
-        //$response = $this->get('/');
 
         $response->assertStatus(200);
+    }
+
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function testRedirectTest()
+    {
+        $this->withoutMiddleware();
+        $response = $this->call('get', '/');
+
+        $response->assertStatus(302);
     }
 }
