@@ -54,7 +54,7 @@
 
 
 
-@if ($errors->any())
+@if (isset($errors) && $errors->any())
 
     <div class="alert alert-danger">
 

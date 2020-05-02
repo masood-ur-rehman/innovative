@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Faker\Generator as Faker;
+use Illuminate\Http\UploadedFile;
 class FilmsSeeder extends Seeder
 {
     /**
@@ -21,7 +22,7 @@ class FilmsSeeder extends Seeder
                 'TicketPrice' => rand(10,30),
                 'Country' => 'USA',
                 'Genre' => 'Action',
-                'Photo' => 'https://source.unsplash.com/800x600',
+                'Photo' => 'films/1588434670.png',
                 'created_at' => date('Y-m-d H:i:s'),
             ]);
         }

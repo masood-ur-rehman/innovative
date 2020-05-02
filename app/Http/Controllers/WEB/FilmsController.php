@@ -15,6 +15,7 @@ class FilmsController extends Controller
      */
     public function index(Request $request)
     {
+
         $page = 1;
         if($request->input('page')){
             $page = $request->input('page');
@@ -55,7 +56,6 @@ class FilmsController extends Controller
     public function show($film='')
     {
         $film = Films::where('Slug', '=', $film)->first();
-
         if (!$film) {
             return back()->with('error','Invalid Film Requested');
         }

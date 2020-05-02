@@ -39,10 +39,21 @@ return [
             'driver' => 'sqlite',
             'url' => env('DATABASE_URL'),
             'database' => env('DB_DATABASE', database_path('database.sqlite')),
+            //'database' => storage_path().'/database.sqlite',
             'prefix' => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
+        'sqlite_testing' => [
+            'driver'   => 'sqlite',
+            'database' => storage_path().'/testing.sqlite',
+            'prefix'   => '',
+        ],
 
+        'sqlite_unit_testing' => [
+            'driver'   => 'sqlite',
+            'database' => ':memory:',
+            'prefix'   => '',
+        ],
         'mysql_test' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),
